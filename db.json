@@ -1,0 +1,122 @@
+{
+  "laptop": [
+    {
+      "brand": "Dell",
+      "model": "XPS 13",
+      "ram": "16GB",
+      "serialNumber": "SN123456",
+      "processor": "Intel i7",
+      "hdd": "512GB SSD",
+      "id": "5625"
+    },
+    {
+      "brand": "Apple",
+      "model": "MacBook Pro",
+      "ram": "16GB",
+      "serialNumber": "SN789012",
+      "processor": "M1",
+      "hdd": "1TB SSD",
+      "id": "5082"
+    },
+    {
+      "id": "1a4d",
+      "brand": "HP",
+      "model": "HP ZBOOK 15",
+      "ram": "16GB",
+      "serialNumber": "2TK9470Y70",
+      "processor": "COREi5",
+      "hdd": "512GB"
+    }
+  ],
+  "monitor": [
+    {
+      "brand": "Samsung",
+      "model": "Odyssey G7",
+      "serialNumber": "SN345678",
+      "screenSize": "27 inches",
+      "id": "8239"
+    },
+    {
+      "brand": "LG",
+      "model": "UltraWide",
+      "serialNumber": "SN901234",
+      "screenSize": "34 inches",
+      "id": "f6db"
+    },
+    {
+      "id": "b8e5",
+      "brand": "HP",
+      "model": "HP ZBOOK 15",
+      "serialNumber": "2TK947OY4T7",
+      "screenSize": "32inches"
+    }
+  ],
+  "charger": [
+    {
+      "brand": "Anker",
+      "voltage": "65W",
+      "adapter": "USB-C",
+      "serialNumber": "SN567890",
+      "port": "USB-C",
+      "id": "8326"
+    },
+    {
+      "brand": "Apple",
+      "voltage": "96W",
+      "adapter": "USB-C",
+      "serialNumber": "SN123789",
+      "port": "USB-C",
+      "id": "0fa9"
+    }
+  ],
+  "printer": [
+    {
+      "brand": "HP",
+      "ram": "2GB",
+      "serialNumber": "SN234567",
+      "hdd": "32GB",
+      "id": "d138"
+    },
+    {
+      "brand": "Canon",
+      "ram": "1GB",
+      "serialNumber": "SN890123",
+      "hdd": "16GB",
+      "id": "0fca"
+    }
+  ],
+  "cartridge": [
+    {
+      "brand": "HP",
+      "serialNumber": "SN345678",
+      "inkColor": "Black",
+      "id": "2121"
+    },
+    {
+      "brand": "Canon",
+      "serialNumber": "SN678901",
+      "inkColor": "Color",
+      "id": "684d"
+    }
+  ],
+  "cable": [
+    {
+      "brand": "Belkin",
+      "cableType": "HDMI",
+      "port": "HDMI",
+      "id": "8988"
+    },
+    {
+      "brand": "AmazonBasics",
+      "cableType": "USB",
+      "port": "USB-A",
+      "id": "0bbb"
+    },
+    {
+      "id": "b653",
+      "brand": "HP",
+      "cableType": "USB",
+      "port": "TYPE C"
+    }
+  ]
+}

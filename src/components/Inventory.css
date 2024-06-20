@@ -1,0 +1,46 @@
+.inventory-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.inventory-container h1 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.inventory-container table {
+  flex-grow: 1;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Adjusted margin */
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+/* Ensure the table header is sticky */
+thead {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}

@@ -1,0 +1,9 @@
+/* global.css */
+
+/* Make sure the body occupies full height */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}

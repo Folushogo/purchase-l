@@ -1,0 +1,72 @@
+.App {
+  background-color: #fff;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in height/width */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+h1 {
+  color: #4caf50;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+fieldset {
+  margin-top: 20px;
+  flex-grow: 1;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  text-align: left;
+  color: #555;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  width: 50%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  width: 30%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: bold;
+  align-self: flex-start; /* Align the button to the left */
+}
+
+select {
+  width: 20%;
+  display: block;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
