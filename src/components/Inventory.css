@@ -44,3 +44,29 @@ thead {
   top: 0;
   background-color: #fff;
 }
+/* Inventory.css */
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  list-style-type: none;
+}
+
+.pagination li {
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.pagination li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.pagination li.active a {
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.pagination li.disabled a {
+  color: #ccc;
+}

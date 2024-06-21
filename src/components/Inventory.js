@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import "./Inventory.css";
-import "./Global.css"; 
+import "./Global.css";
+import ReactPaginate from 'react-paginate';
 
 function Inventory() {
   const [items, setItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
   const categories = [
     "laptop",
@@ -37,6 +40,14 @@ function Inventory() {
     fetchItems();
   }, []);
 
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageItems = items.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
+
   return (
     <div>
       <Navbar />
@@ -62,9 +73,9 @@ function Inventory() {
             </tr>
           </thead>
           <tbody>
-            {items?.map((item, index) => (
+            {currentPageItems.map((item, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                <td>{offset + index + 1}</td>
                 <td>{item.category}</td>
                 <td>{item.brand}</td>
                 <td>{item.model}</td>
@@ -82,6 +93,19 @@ function Inventory() {
             ))}
           </tbody>
         </table>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
       </div>
     </div>
   );
