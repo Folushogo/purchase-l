@@ -36,7 +36,7 @@ function Home() {
           <div className="feature">
             <i className="fas fa-headset"></i>
             <h3>24/7 Support</h3>
-            <p>Our customer support fasteam is here to help you anytime.</p>
+            <p>Our customer support fasteam is here to help you anytime...</p>
           </div>
         </div>
         </div>
