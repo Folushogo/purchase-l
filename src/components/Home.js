@@ -30,12 +30,6 @@ function Home() {
           <Link to="/items" className="cta-button">Browse Items</Link>
         </div>
       </div>
-      <div className="intro-section">
-        <h2>About Us</h2>
-        <p>
-          Our diverse team is comprised of experts in network architecture, cloud computing, cybersecurity, data management, and more. Read more on about us page......</p>
-        
-      </div>
       <div className="features-section">
         <h2>Our Features</h2>
           <div className="features">
@@ -45,7 +39,7 @@ function Home() {
             <p>Our customer support fasteam is here to help you anytime.</p>
           </div>
         </div>
-      </div>
+        </div>
       </div>
       
   );
