@@ -13,6 +13,8 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Inventory from "./components/Inventory";
 import Items from "./components/Items";
+import Categories from "./components/Categories";
+
 
 class App extends Component {
     render() {
@@ -35,6 +37,10 @@ class App extends Component {
                         <Route
                             path="/Inventory"
                             element={<Inventory />}
+                        ></Route>
+                        <Route
+                            path="/Categories"
+                            element={<Categories />}
                         ></Route>
                     </Routes>
                 </div>

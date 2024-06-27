@@ -21,6 +21,9 @@ function Home() {
           <li>
             <Link to="/about">About Us</Link>
           </li>
+          <li>
+            <Link to="/Categories">Categories</Link>
+          </li>
         </ul>
       </nav>
       <div className="hero-section">
