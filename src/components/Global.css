@@ -1,9 +1,32 @@
-/* global.css */
-
-/* Make sure the body occupies full height */
+/* Global.css */
 body {
   margin: 0;
-  padding: 0;
-  height: 100vh;
   font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+h1, h2, h3 {
+  color: #45a049;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #45a049;
 }

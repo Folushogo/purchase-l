@@ -1,17 +1,18 @@
 /* App.css */
- body {
+body {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
 }
 
-
 .App {
   background-color: #fff;
-  height: 100vh; 
-  width: 100vw; 
-  padding: 20px;
-  box-sizing: border-box; 
+  height: 100vh;
+  width: 100vw;
+  padding: 0 20px; /* Added padding to the sides */
+  box-sizing: border-box;
+  padding-top: 60px; /* Space for the fixed navbar */
+  overflow-y: auto; /* Allow scrolling */
 }
 
 h1 {
@@ -68,4 +69,51 @@ select {
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 5px;
+}
+
+/* Navbar styles */
+.navbar {
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #444;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  z-index: 1000; /* Ensure it's above other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds shadow for better visibility */
+}
+
+.navbar a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .App {
+    padding: 0 10px; /* Adjust padding for smaller screens */
+    padding-top: 60px; /* Ensure space for the fixed navbar */
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .App {
+    padding: 0 15px; /* Adjust padding for medium screens */
+    padding-top: 60px; /* Ensure space for the fixed navbar */
+  }
+
+  button[type="submit"] {
+    width: 60%;
+  }
 }

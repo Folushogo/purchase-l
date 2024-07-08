@@ -123,6 +123,24 @@
       "brand": "HP",
       "cableType": "USB",
       "port": "TYPE B"
+    },
+    {
+      "id": "46c3",
+      "brand": "HP",
+      "cableType": "USB",
+      "port": "TYPE B"
+    },
+    {
+      "id": "c629",
+      "brand": "HP",
+      "cableType": "USB",
+      "port": "TYPE B"
+    },
+    {
+      "id": "040d",
+      "brand": "HP",
+      "cableType": "USB",
+      "port": "TYPE C"
     }
   ]
 }

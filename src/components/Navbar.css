@@ -1,84 +1,17 @@
 /* Navbar.css */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.navbar {
+  background: #444;
+  color: white;
+  padding: 1rem;
+  text-align: center;
 }
 
-nav {
-  background-color: #141414; /* Background color of the navbar */
-  padding: 1rem 2rem; /* Padding for spacing */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
+.navbar a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
 }
 
-nav ul {
-  list-style-type: none;
-  display: flex; 
-  align-items: center;
-  margin: 0 auto; 
-  position: absolute; 
-  left: 50%;
-  transform: translateX(-50%); 
-}
-
-nav li {
-  margin-right: 2rem; 
-}
-
-nav li:last-child {
-  margin-right: 0;
-}
-
-nav a {
-  color: white; 
-  text-decoration: none; 
-  font-weight: 500; 
-  transition: color 0.3s ease; 
-}
-
-nav a:hover {
-  color: #f39c12; 
-}
-
-.go-back-icon {
-  color: white; 
-  cursor: pointer; 
-  transition: color 0.3s ease; 
-  font-size: 1.5rem; 
-}
-
-.go-back-icon:hover {
-  color: #f39c12;
-}
-
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column; 
-    padding: 1rem;
-  }
-
-  nav ul {
-    flex-direction: column; 
-    position: static;
-    transform: none; 
-    width: 100%; 
-    margin: 1rem 0; 
-  }
-
-  nav li {
-    margin-right: 0;
-    margin-bottom: 1rem;
-  }
-
-  nav li:last-child {
-    margin-bottom: 0;
-  }
-
-  .go-back-icon {
-    margin-bottom: 1rem; 
-  }
+.navbar a:hover {
+  text-decoration: underline;
 }

@@ -1,73 +1,111 @@
 .App {
-  background-color: #fff;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
+  text-align: center;
   padding: 20px;
-  box-sizing: border-box; /* Include padding in height/width */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 h1 {
-  color: #4caf50;
-  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 10px;
 }
 
 h2 {
-  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
 }
 
 fieldset {
-  margin-top: 20px;
-  flex-grow: 1;
-}
-
-label {
-  display: block;
-  margin-bottom: 0; /* Reduce bottom margin */
-  margin-top: 0; /* Keep top margin for spacing above the label */
-  text-align: left;
-  color: #555;
-  font-weight: bold;
-}
-
-input[type="text"] {
-  width: 50%;
-  padding: 8px;
-  margin-bottom: 0; /* Reduce bottom margin */
-  margin-top: 0;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-button[type="submit"] {
-  width: 30%;
-  padding: 15px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: bold;
-  align-self: flex-start; /* Align the button to the left */
-}
-
-select {
-  width: 20%;
-  display: block;
-  margin-bottom: 10px; /* Reduce bottom margin */
-  padding: 8px; /* Adjust padding for consistency */
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: space-between;
-  height: 100%;
+}
+
+label {
+  flex: 1 1 100%;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+input {
+  flex: 1 1 calc(33.333% - 10px);
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+select {
+  width: 30%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+/* src/App.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header, .footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.item {
+  background: #f4f4f4;
+  margin: 0.5rem;
+  padding: 1rem;
+  flex: 1 1 calc(100% - 1rem);
+}
+
+@media (min-width: 600px) {
+  .item {
+    flex: 1 1 calc(50% - 1rem);
+  }
+}
+
+@media (min-width: 900px) {
+  .item {
+    flex: 1 1 calc(33.33% - 1rem);
+  }
 }

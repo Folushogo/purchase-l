@@ -1,11 +1,13 @@
+/* Inventory.css */
 .inventory-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 60px); /* Adjust based on your navbar height */
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
+  margin-top: 60px; /* Space for the fixed navbar */
 }
 
 .inventory-container h1 {
@@ -17,7 +19,7 @@
   flex-grow: 1;
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px; /* Adjusted margin */
+  margin-top: 20px;
 }
 
 th, td {
@@ -44,7 +46,8 @@ thead {
   top: 0;
   background-color: #fff;
 }
-/* Inventory.css */
+
+/* Pagination styles */
 .pagination {
   display: flex;
   justify-content: center;
@@ -69,4 +72,75 @@ thead {
 
 .pagination li.disabled a {
   color: #ccc;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .inventory-container {
+    padding: 15px;
+  }
+
+  .inventory-container table, th, td {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .inventory-container {
+    padding: 10px;
+  }
+
+  .inventory-container table, th, td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pagination li {
+    margin: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inventory-container {
+    padding: 5px;
+  }
+
+  .inventory-container table, th, td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  th, td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  tr:nth-child(even), tr:hover {
+    background-color: transparent;
+  }
+
+  thead {
+    display: none;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+
+  .pagination li {
+    margin: 0.2rem;
+  }
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "./Navbar";
 import "./Inventory.css";
 import "./Global.css";
 import ReactPaginate from 'react-paginate';
@@ -50,7 +49,7 @@ function Inventory() {
 
   return (
     <div>
-      <Navbar />
+      
       <div className="inventory-container">
         <h1>Inventory</h1>
         <table>
