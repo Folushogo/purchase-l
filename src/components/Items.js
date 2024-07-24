@@ -1,31 +1,30 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { CategoryContext } from "../Context/CategoryContext";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Item.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function Items() {
-  const { categories } = useContext(CategoryContext);
-  const [category, setCategory] = useState(categories[0].name);
+  const [category, setCategory] = useState("");
   const [formData, setFormData] = useState({});
-
-  const [data, setData] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState("");
+  const [newFields, setNewFields] = useState([]);
+  const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/${category}`);
-        setData((prevData) => ({
-          ...prevData,
-          [category]: response.data,
-        }));
+        const response = await axios.get(`http://localhost:5001/categories`);
+        setCategories(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching categories:", error);
       }
     };
-    fetchData();
-  }, [category]);
+    fetchCategories();
+  }, []);
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -35,68 +34,89 @@ function Items() {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [category]: {
-        ...prevData[category],
-        [name]: value,
-      },
+      [name]: value,
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const dataToSubmit = formData[category];
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  const dataToSubmit = formData;
 
-    const config = {
-      method: "POST",
-      url: `http://localhost:5000/${category}`,
-      data: JSON.stringify(dataToSubmit),
-      headers: { "Content-Type": "text/plain" },
-    };
-    try {
-      const response = await axios(config);
-      console.log(response.data);
+  try {
+    await axios.post(`http://localhost:5000/add-item`, {
+      category,
+      newItem: dataToSubmit,
+    });
 
-      toast.success("Form submitted successfully!");
+    toast.success("Form submitted successfully!");
+    setFormData({});
+    // You may want to refresh categories here if needed
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    toast.error("Error submitting form!");
+  }
+};
 
-      setFormData((prevData) => ({
-        ...prevData,
-        [category]: {},
-      }));
+  const handleAddNewCategory = () => {
+    setShowNewCategoryModal(true);
+  };
 
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`http://localhost:5000/${category}`);
-          setData((prevData) => ({
-            ...prevData,
-            [category]: response.data,
-          }));
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-      fetchData();
+  const handleNewCategoryChange = (e) => {
+    setNewCategory(e.target.value);
+  };
 
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Error submitting form!");
+  const handleNewFieldChange = (index, e) => {
+    const newFieldsCopy = [...newFields];
+    newFieldsCopy[index] = e.target.value;
+    setNewFields(newFieldsCopy);
+  };
+
+  const handleAddField = () => {
+    setNewFields([...newFields, ""]);
+  };
+
+  const handleNewCategorySubmit = async () => {
+    if (newCategory && newFields.length) {
+      try {
+        const newCategoryObject = {
+          name: newCategory,
+          fields: [...new Set(newFields)], // Remove duplicate fields
+        };
+      
+        setCategories([...categories, newCategoryObject]);
+        setFormData({});
+        
+        toast.success("New category added successfully!");
+        setShowNewCategoryModal(false);
+        setNewCategory("");
+        setNewFields([]);
+      } catch (error) {
+        console.error("Error adding new category:", error);
+        toast.error("Error adding new category!");
+      }
+    } else {
+      toast.error("Please provide category name and fields!");
     }
   };
 
   const renderInputs = () => {
-    const currentCategory = categories.find(cat => cat.name === category);
-    return currentCategory?.fields.map((field, index) => (
-      <label key={index} htmlFor={field}>
-        {field.charAt(0).toUpperCase() + field.slice(1)}*
+    const selectedCategory = categories.find((cat) => cat.name === category);
+    if (!selectedCategory) return null;
+
+    return selectedCategory.fields.map((field, index) => (
+      <div key={index}>
+        <label htmlFor={field}>{field}*</label>
         <input
           type="text"
           id={field}
           name={field}
           placeholder={`Enter ${field}`}
-          value={formData[category]?.[field] || ""}
+          value={formData[field] || ""}
           required
           onChange={handleInputChange}
         />
-      </label>
+      </div>
     ));
   };
 
@@ -108,16 +128,52 @@ function Items() {
         <fieldset>
           <form onSubmit={handleSubmit}>
             <select value={category} onChange={handleCategoryChange}>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat.name}>
-                  {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
+              <option value="" disabled>Select a category</option>
+              {categories.map((cat) => (
+                <option key={cat.name} value={cat.name}>
+                  {cat.name}
                 </option>
               ))}
             </select>
             {renderInputs()}
             <button type="submit">Submit</button>
           </form>
-        </fieldset> 
+        </fieldset>
+        <button onClick={handleAddNewCategory}>Add New Category</button>
+        {showNewCategoryModal && (
+          <>
+    <div className="modal-background"></div>
+          <div className="modal">
+            <h2>Add New Category</h2>
+            <div className="button-group">
+              <button className="cancel-button" onClick={() => setShowNewCategoryModal(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+            <label>Category Name</label>
+            <input
+              type="text"
+              id="newCategory"
+              value={newCategory}
+              onChange={handleNewCategoryChange}
+            />
+            <h3>Fields</h3>
+            {newFields.map((field, index) => (
+              <div key={index}>
+                <label htmlFor={`field${index}`}>Field Name</label>
+                <input
+                  type="text"
+                  id={`field${index}`}
+                  value={field}
+                  onChange={(e) => handleNewFieldChange(index, e)}
+                />
+              </div>
+            ))}
+            <button onClick={handleAddField}>Add Field</button>
+            <button onClick={handleNewCategorySubmit}>Submit</button>
+          </div>
+          </>
+        )}
       </div>
       <ToastContainer />
     </div>

@@ -15,7 +15,7 @@ function Home() {
       </div>
       <div className="intro-section">
         <h2>Introduction</h2>
-        <p>Welcome to our website where you can log your purchases easily and effectively.</p>
+        <p>Welcome to our website where you can log your purchases easily and effectively...</p>
       </div>
       <div className="features-section">
         <h2>Our Features</h2>

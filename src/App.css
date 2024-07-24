@@ -71,9 +71,8 @@ select {
   border-radius: 5px;
 }
 
-/* Navbar styles */
 .navbar {
-  position: fixed; /* Fixed position */
+  position: fixed; 
   top: 0;
   left: 0;
   right: 0;
@@ -81,8 +80,8 @@ select {
   color: white;
   padding: 1rem;
   text-align: center;
-  z-index: 1000; /* Ensure it's above other content */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds shadow for better visibility */
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar a {
@@ -95,11 +94,10 @@ select {
   text-decoration: underline;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .App {
-    padding: 0 10px; /* Adjust padding for smaller screens */
-    padding-top: 60px; /* Ensure space for the fixed navbar */
+    padding: 0 10px; 
+    padding-top: 60px; 
   }
 
   button[type="submit"] {
@@ -109,8 +107,8 @@ select {
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .App {
-    padding: 0 15px; /* Adjust padding for medium screens */
-    padding-top: 60px; /* Ensure space for the fixed navbar */
+    padding: 0 15px; 
+    padding-top: 60px;
   }
 
   button[type="submit"] {

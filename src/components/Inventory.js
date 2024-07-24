@@ -4,39 +4,50 @@ import "./Inventory.css";
 import "./Global.css";
 import ReactPaginate from 'react-paginate';
 
-function Inventory() {
+const Inventory = () => {
   const [items, setItems] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
 
-  const categories = [
-    "laptop",
-    "monitor",
-    "charger",
-    "printer",
-    "cartridge",
-    "cable",
-  ];
-
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchCategoriesAndItems = async () => {
       try {
-        const requests = categories.map((category) =>
-          axios
-            .get(`http://localhost:5000/${category}`)
-            .then((response) =>
-              response.data.map((item) => ({ ...item, category }))
-            )
+        const categoryResponse = await axios.get(`http://localhost:5001/categories`);
+        const categoriesData = categoryResponse.data;
+        console.log('Fetched Categories:', categoriesData); // Debugging line
+        setCategories(categoriesData);
+
+        const requests = categoriesData.map((category) =>
+          axios.get(`http://localhost:5001/${category.name}`)
+            .then((response) => {
+              console.log(`Fetched Items for ${category.name}:`, response.data); // Debugging line
+              return response.data.map((item) => ({ ...item, category: category.name }));
+            })
+            .catch((error) => {
+              if (error.response && error.response.status === 404) {
+                console.warn(`Category ${category.name} not found`);
+                return [];
+              } else {
+                console.error(`Error fetching ${category.name}:`, error);
+                return [];
+              }
+            })
         );
+
         const responses = await Promise.all(requests);
         const allItems = responses.flat();
-        setItems(allItems);
+        console.log('All Items:', allItems); // Debugging line
+
+        // Filter out duplicates based on unique ID
+        const uniqueItems = Array.from(new Map(allItems.map(item => [item.id, item])).values());
+        setItems(uniqueItems);
       } catch (error) {
-        console.error("Error fetching items:", error);
+        console.error("Error fetching categories and items:", error);
       }
     };
 
-    fetchItems();
+    fetchCategoriesAndItems();
   }, []);
 
   const handlePageClick = ({ selected }) => {
@@ -47,9 +58,10 @@ function Inventory() {
   const currentPageItems = items.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
+  const allFields = Array.from(new Set(categories.flatMap(category => category.fields)));
+
   return (
     <div>
-      
       <div className="inventory-container">
         <h1>Inventory</h1>
         <table>
@@ -57,18 +69,9 @@ function Inventory() {
             <tr>
               <th>No.</th>
               <th>Category</th>
-              <th>Brand</th>
-              <th>Model</th>
-              <th>RAM</th>
-              <th>Serial Number</th>
-              <th>Processor</th>
-              <th>HDD</th>
-              <th>Screen Size</th>
-              <th>Voltage</th>
-              <th>Adapter</th>
-              <th>Port</th>
-              <th>Ink Color</th>
-              <th>Cable Type</th>
+              {allFields.map((field, index) => (
+                <th key={index}>{field}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -76,18 +79,9 @@ function Inventory() {
               <tr key={index}>
                 <td>{offset + index + 1}</td>
                 <td>{item.category}</td>
-                <td>{item.brand}</td>
-                <td>{item.model}</td>
-                <td>{item.ram}</td>
-                <td>{item.serialNumber}</td>
-                <td>{item.processor}</td>
-                <td>{item.hdd}</td>
-                <td>{item.screenSize}</td>
-                <td>{item.voltage}</td>
-                <td>{item.adapter}</td>
-                <td>{item.port}</td>
-                <td>{item.inkColor}</td>
-                <td>{item.cableType}</td>
+                {allFields.map((field, fieldIndex) => (
+                  <td key={fieldIndex}>{item[field] || ""}</td>
+                ))}
               </tr>
             ))}
           </tbody>

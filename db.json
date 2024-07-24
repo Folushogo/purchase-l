@@ -1,22 +1,22 @@
 {
   "laptop": [
     {
+      "id": "5625",
       "brand": "Dell",
       "model": "XPS 13",
       "ram": "16GB",
       "serialNumber": "SN123456",
       "processor": "Intel i7",
-      "hdd": "512GB SSD",
-      "id": "5625"
+      "hdd": "512GB SSD"
     },
     {
+      "id": "5082",
       "brand": "Apple",
       "model": "MacBook Pro",
       "ram": "16GB",
       "serialNumber": "SN789012",
       "processor": "M1",
-      "hdd": "1TB SSD",
-      "id": "5082"
+      "hdd": "1TB SSD"
     },
     {
       "id": "1a4d",
@@ -30,117 +30,150 @@
   ],
   "monitor": [
     {
+      "id": "8239",
       "brand": "Samsung",
       "model": "Odyssey G7",
       "serialNumber": "SN345678",
-      "screenSize": "27 inches",
-      "id": "8239"
+      "screenSize": "27 inches"
     },
     {
+      "id": "f6db",
       "brand": "LG",
       "model": "UltraWide",
       "serialNumber": "SN901234",
-      "screenSize": "34 inches",
-      "id": "f6db"
+      "screenSize": "34 inches"
     },
     {
       "id": "b8e5",
       "brand": "HP",
       "model": "HP ZBOOK 15",
       "serialNumber": "2TK947OY4T7",
-      "screenSize": "32inches"
+      "screenSize": "32 inches"
     }
   ],
   "charger": [
     {
+      "id": "8326",
       "brand": "Anker",
       "voltage": "65W",
       "adapter": "USB-C",
       "serialNumber": "SN567890",
-      "port": "USB-C",
-      "id": "8326"
+      "port": "USB-C"
     },
     {
+      "id": "0fa9",
       "brand": "Apple",
       "voltage": "96W",
       "adapter": "USB-C",
       "serialNumber": "SN123789",
-      "port": "USB-C",
-      "id": "0fa9"
+      "port": "USB-C"
     }
   ],
   "printer": [
     {
+      "id": "d138",
       "brand": "HP",
       "ram": "2GB",
       "serialNumber": "SN234567",
-      "hdd": "32GB",
-      "id": "d138"
+      "hdd": "32GB"
     },
     {
+      "id": "0fca",
       "brand": "Canon",
       "ram": "1GB",
       "serialNumber": "SN890123",
-      "hdd": "16GB",
-      "id": "0fca"
+      "hdd": "16GB"
     }
   ],
   "cartridge": [
     {
+      "id": "2121",
       "brand": "HP",
       "serialNumber": "SN345678",
-      "inkColor": "Black",
-      "id": "2121"
+      "inkColor": "Black"
     },
     {
+      "id": "684d",
       "brand": "Canon",
       "serialNumber": "SN678901",
-      "inkColor": "Color",
-      "id": "684d"
+      "inkColor": "Color"
     }
   ],
   "cable": [
     {
+      "id": "8988",
       "brand": "Belkin",
       "cableType": "HDMI",
-      "port": "HDMI",
-      "id": "8988"
+      "port": "HDMI"
     },
     {
+      "id": "0bbb",
       "brand": "AmazonBasics",
       "cableType": "USB",
-      "port": "USB-A",
-      "id": "0bbb"
+      "port": "USB-A"
+    }
+  ],
+  "categories": [
+    {
+      "name": "laptop",
+      "fields": [
+        "brand",
+        "model",
+        "ram",
+        "serialNumber",
+        "processor",
+        "hdd"
+      ],
+      "id": "ece9"
     },
     {
-      "id": "b653",
-      "brand": "HP",
-      "cableType": "USB",
-      "port": "TYPE C"
+      "name": "monitor",
+      "fields": [
+        "brand",
+        "model",
+        "serialNumber",
+        "screenSize"
+      ],
+      "id": "cea8"
     },
     {
-      "id": "c09d",
-      "brand": "HP",
-      "cableType": "USB",
-      "port": "TYPE B"
+      "name": "charger",
+      "fields": [
+        "brand",
+        "voltage",
+        "adapter",
+        "serialNumber",
+        "port"
+      ],
+      "id": "5887"
     },
     {
-      "id": "46c3",
-      "brand": "HP",
-      "cableType": "USB",
-      "port": "TYPE B"
+      "name": "printer",
+      "fields": [
+        "brand",
+        "ram",
+        "serialNumber",
+        "hdd"
+      ],
+      "id": "368b"
     },
     {
-      "id": "c629",
-      "brand": "HP",
-      "cableType": "USB",
-      "port": "TYPE B"
+      "name": "cartridge",
+      "fields": [
+        "brand",
+        "serialNumber",
+        "inkColor"
+      ],
+      "id": "a7be"
     },
     {
-      "id": "040d",
-      "brand": "HP",
-      "cableType": "USB",
-      "port": "TYPE C"
+      "name": "cable",
+      "fields": [
+        "brand",
+        "cableType",
+        "port"
+      ],
+      "id": "911a"
     }
   ]
 }
