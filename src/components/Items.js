@@ -18,7 +18,8 @@ function Items() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`http://localhost:5001/categories`);
-        setCategories(response.data);
+        const uniqueCategories = [...new Map(response.data.map(cat => [cat.name, cat])).values()];
+        setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -38,25 +39,25 @@ function Items() {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  const dataToSubmit = formData;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const dataToSubmit = formData;
 
-  try {
-    await axios.post(`http://localhost:5000/add-item`, {
-      category,
-      newItem: dataToSubmit,
-    });
+    try {
+      console.log(dataToSubmit);
+      await axios.post(`http://localhost:5000/add-item`, {
+        category,
+        newItem: dataToSubmit,
+      });
 
-    toast.success("Form submitted successfully!");
-    setFormData({});
-    // You may want to refresh categories here if needed
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    toast.error("Error submitting form!");
-  }
-};
+      toast.success("Form submitted successfully!");
+      setFormData({});
+      setCategory("");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Error submitting form!");
+    }
+  };
 
   const handleAddNewCategory = () => {
     setShowNewCategoryModal(true);
@@ -83,7 +84,8 @@ const handleSubmit = async (e) => {
           name: newCategory,
           fields: [...new Set(newFields)], // Remove duplicate fields
         };
-      
+        await axios.post(`http://localhost:5001/categories`, newCategoryObject);
+
         setCategories([...categories, newCategoryObject]);
         setFormData({});
         
@@ -142,7 +144,7 @@ const handleSubmit = async (e) => {
         <button onClick={handleAddNewCategory}>Add New Category</button>
         {showNewCategoryModal && (
           <>
-    <div className="modal-background"></div>
+           <div className="modal-background"></div>
           <div className="modal">
             <h2>Add New Category</h2>
             <div className="button-group">
