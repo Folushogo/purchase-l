@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Item.css";
@@ -13,19 +14,28 @@ function Items() {
   const [newCategory, setNewCategory] = useState("");
   const [newFields, setNewFields] = useState([]);
   const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
+  const [allFields, setAllFields] = useState([]);
+  const [otherFields, setOtherFields] = useState([]);
 
+  // Fetch categories when the component mounts
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5001/categories`);
-        const uniqueCategories = [...new Map(response.data.map(cat => [cat.name, cat])).values()];
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
     fetchCategories();
   }, []);
+
+  // Function to fetch categories
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5001/categories`);
+      setCategories(response.data);
+      const fields = new Set();
+      response.data.forEach(category => {
+        category.fields.forEach(field => fields.add(field));
+      });
+      setAllFields(Array.from(fields).map(field => ({ value: field, label: field })));
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -41,10 +51,10 @@ function Items() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const dataToSubmit = formData;
+
+    const dataToSubmit = { ...formData, id: Date.now().toString() };
 
     try {
-      console.log(dataToSubmit);
       await axios.post(`http://localhost:5000/add-item`, {
         category,
         newItem: dataToSubmit,
@@ -52,7 +62,7 @@ function Items() {
 
       toast.success("Form submitted successfully!");
       setFormData({});
-      setCategory("");
+      fetchCategories(); // Refresh categories to avoid stale dropdown data
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Error submitting form!");
@@ -67,32 +77,45 @@ function Items() {
     setNewCategory(e.target.value);
   };
 
-  const handleNewFieldChange = (index, e) => {
-    const newFieldsCopy = [...newFields];
-    newFieldsCopy[index] = e.target.value;
-    setNewFields(newFieldsCopy);
+  const handleNewFieldChange = (selectedOptions) => {
+    setNewFields(selectedOptions.map(option => option.value));
   };
 
-  const handleAddField = () => {
-    setNewFields([...newFields, ""]);
+  const handleOtherFieldChange = (index, e) => {
+    const value = e.target.value;
+    setOtherFields((prevFields) => {
+      const newFields = [...prevFields];
+      newFields[index] = value;
+      return newFields;
+    });
+  };
+
+  const addOtherField = () => {
+    setOtherFields((prevFields) => [...prevFields, ""]);
   };
 
   const handleNewCategorySubmit = async () => {
-    if (newCategory && newFields.length) {
+    if (newCategory && (newFields.length || otherFields.some(field => field.trim()))) {
       try {
-        const newCategoryObject = {
-          name: newCategory,
-          fields: [...new Set(newFields)], // Remove duplicate fields
-        };
-        await axios.post(`http://localhost:5001/categories`, newCategoryObject);
+        const existingCategory = categories.find(cat => cat.name === newCategory);
+        if (!existingCategory) {
+          const combinedFields = [...new Set([...newFields, ...otherFields.filter(field => field.trim())])];
+          const newCategoryObject = {
+            name: newCategory,
+            fields: combinedFields, // Remove duplicate fields
+          };
+          await axios.post(`http://localhost:5001/categories`, newCategoryObject);
 
-        setCategories([...categories, newCategoryObject]);
-        setFormData({});
-        
-        toast.success("New category added successfully!");
-        setShowNewCategoryModal(false);
-        setNewCategory("");
-        setNewFields([]);
+          fetchCategories(); // Re-fetch categories to include the new one
+
+          toast.success("New category added successfully!");
+          setShowNewCategoryModal(false);
+          setNewCategory("");
+          setNewFields([]);
+          setOtherFields([]);
+        } else {
+          toast.error("Category already exists!");
+        }
       } catch (error) {
         console.error("Error adding new category:", error);
         toast.error("Error adding new category!");
@@ -107,7 +130,7 @@ function Items() {
     if (!selectedCategory) return null;
 
     return selectedCategory.fields.map((field, index) => (
-      <div key={index}>
+      <div key={`${category}-${field}-${index}`}>
         <label htmlFor={field}>{field}*</label>
         <input
           type="text"
@@ -120,6 +143,40 @@ function Items() {
         />
       </div>
     ));
+  };
+
+  // Custom styles for react-select
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: '2px solid #333',
+      boxShadow: 'none',
+      borderRadius: '4px',
+      padding: '5px',
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: '#e1e1e1',
+      borderRadius: '4px',
+      padding: '2px 6px',
+      margin: '2px',
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: '#333',
+      fontWeight: 'bold',
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      color: '#d9534f',
+      cursor: 'pointer',
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: '4px',
+      marginTop: '5px',
+      zIndex: 9999,
+    }),
   };
 
   return (
@@ -144,36 +201,44 @@ function Items() {
         <button onClick={handleAddNewCategory}>Add New Category</button>
         {showNewCategoryModal && (
           <>
-           <div className="modal-background"></div>
-          <div className="modal">
-            <h2>Add New Category</h2>
-            <div className="button-group">
-              <button className="cancel-button" onClick={() => setShowNewCategoryModal(false)}>
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            </div>
-            <label>Category Name</label>
-            <input
-              type="text"
-              id="newCategory"
-              value={newCategory}
-              onChange={handleNewCategoryChange}
-            />
-            <h3>Fields</h3>
-            {newFields.map((field, index) => (
-              <div key={index}>
-                <label htmlFor={`field${index}`}>Field Name</label>
-                <input
-                  type="text"
-                  id={`field${index}`}
-                  value={field}
-                  onChange={(e) => handleNewFieldChange(index, e)}
-                />
+            <div className="modal-background"></div>
+            <div className="modal">
+              <h2>Add New Category</h2>
+              <div className="button-group">
+                <button className="cancel-button" onClick={() => setShowNewCategoryModal(false)}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
               </div>
-            ))}
-            <button onClick={handleAddField}>Add Field</button>
-            <button onClick={handleNewCategorySubmit}>Submit</button>
-          </div>
+              <label>Category Name</label>
+              <input
+                type="text"
+                id="newCategory"
+                value={newCategory}
+                onChange={handleNewCategoryChange}
+              />
+              <h3>Fields</h3>
+              <Select
+                isMulti
+                name="fields"
+                options={allFields}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={handleNewFieldChange}
+                styles={customStyles}
+              />
+              <button onClick={addOtherField}>Add Other Field</button>
+              {otherFields.length > 0 && otherFields.map((field, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    value={field}
+                    onChange={(e) => handleOtherFieldChange(index, e)}
+                    placeholder="Enter new field"
+                  />
+                </div>
+              ))}
+              <button onClick={handleNewCategorySubmit}>Submit</button>
+            </div>
           </>
         )}
       </div>

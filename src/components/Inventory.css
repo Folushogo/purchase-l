@@ -1,13 +1,22 @@
-/* Inventory.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+
+
+
 .inventory-container {
+  margin-left: 60px; 
   display: flex;
   flex-direction: column;
-  height: calc(100% - 60px); /* Adjust based on your navbar height */
-  width: 100%;
+  height: 100vh; 
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
-  margin-top: 60px; /* Space for the fixed navbar */
 }
 
 .inventory-container h1 {
@@ -143,4 +152,22 @@ thead {
   .pagination li {
     margin: 0.2rem;
   }
+}
+
+/* Inventory table edit input styles */
+.inventory-container td input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.inventory-container td button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+/* Add spacing between Save and Cancel buttons */
+.inventory-container td .edit-buttons {
+  display: flex;
+  gap: 10px;
 }

@@ -2,7 +2,6 @@ const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { v4: uuidv4 } = require('uuid');
 const app = express();
 
 app.use(cors());
@@ -15,12 +14,10 @@ app.post('/add-item', (req, res) => {
 
   // Check if the category exists
   if (!db[category]) {
-    return res.status(400).json({ message: 'Category does not exist' });
-  }
-
-  // Assign a unique ID to the new item if it doesn't have one
-  if (!newItem.id) {
-    newItem.id = uuidv4();
+    // If category does not exist, create it
+    db[category] = [];
+    // Add category fields to categories array
+    db.categories.push({ name: category, fields: Object.keys(newItem) });
   }
 
   // Add the new item to the category
@@ -28,7 +25,7 @@ app.post('/add-item', (req, res) => {
 
   // Write the updated db back to db.json
   fs.writeFileSync('db.json', JSON.stringify(db, null, 2));
-  res.status(200).json({ message: 'Item added successfully' });
+  res.status(200).send('Item added successfully');
 });
 
 app.listen(5000, () => {

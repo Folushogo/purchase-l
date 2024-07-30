@@ -1,177 +1,74 @@
 {
-  "laptop": [
-    {
-      "id": "5625",
-      "brand": "Dell",
-      "model": "XPS 13",
-      "ram": "16GB",
-      "serialNumber": "SN123456",
-      "processor": "Intel i7",
-      "hdd": "512GB SSD"
-    },
-    {
-      "id": "5082",
-      "brand": "Apple",
-      "model": "MacBook Pro",
-      "ram": "16GB",
-      "serialNumber": "SN789012",
-      "processor": "M1",
-      "hdd": "1TB SSD"
-    },
-    {
-      "id": "1a4d",
-      "brand": "HP",
-      "model": "HP ZBOOK 15",
-      "ram": "16GB",
-      "serialNumber": "2TK9470Y70",
-      "processor": "COREi5",
-      "hdd": "512GB"
-    }
-  ],
-  "monitor": [
-    {
-      "id": "8239",
-      "brand": "Samsung",
-      "model": "Odyssey G7",
-      "serialNumber": "SN345678",
-      "screenSize": "27 inches"
-    },
-    {
-      "id": "f6db",
-      "brand": "LG",
-      "model": "UltraWide",
-      "serialNumber": "SN901234",
-      "screenSize": "34 inches"
-    },
-    {
-      "id": "b8e5",
-      "brand": "HP",
-      "model": "HP ZBOOK 15",
-      "serialNumber": "2TK947OY4T7",
-      "screenSize": "32 inches"
-    }
-  ],
-  "charger": [
-    {
-      "id": "8326",
-      "brand": "Anker",
-      "voltage": "65W",
-      "adapter": "USB-C",
-      "serialNumber": "SN567890",
-      "port": "USB-C"
-    },
-    {
-      "id": "0fa9",
-      "brand": "Apple",
-      "voltage": "96W",
-      "adapter": "USB-C",
-      "serialNumber": "SN123789",
-      "port": "USB-C"
-    }
-  ],
-  "printer": [
-    {
-      "id": "d138",
-      "brand": "HP",
-      "ram": "2GB",
-      "serialNumber": "SN234567",
-      "hdd": "32GB"
-    },
-    {
-      "id": "0fca",
-      "brand": "Canon",
-      "ram": "1GB",
-      "serialNumber": "SN890123",
-      "hdd": "16GB"
-    }
-  ],
-  "cartridge": [
-    {
-      "id": "2121",
-      "brand": "HP",
-      "serialNumber": "SN345678",
-      "inkColor": "Black"
-    },
-    {
-      "id": "684d",
-      "brand": "Canon",
-      "serialNumber": "SN678901",
-      "inkColor": "Color"
-    }
-  ],
-  "cable": [
-    {
-      "id": "8988",
-      "brand": "Belkin",
-      "cableType": "HDMI",
-      "port": "HDMI"
-    },
-    {
-      "id": "0bbb",
-      "brand": "AmazonBasics",
-      "cableType": "USB",
-      "port": "USB-A"
-    }
-  ],
+  "laptop": [],
+  "monitor": [],
+  "charger": [],
+  "printer": [],
+  "cartridge": [],
+  "cable": [],
   "categories": [
     {
       "name": "laptop",
       "fields": [
-        "brand",
-        "model",
-        "ram",
-        "serialNumber",
-        "processor",
-        "hdd"
+        "Brand",
+        "Model",
+        "Description",
+        "Vendor",
+        "AssignedTo"
       ],
       "id": "ece9"
     },
     {
       "name": "monitor",
       "fields": [
-        "brand",
-        "model",
-        "serialNumber",
-        "screenSize"
+       "Brand",
+        "Model",
+        "Description",
+        "Vendor",
+        "AssignedTo"
       ],
       "id": "cea8"
     },
     {
       "name": "charger",
       "fields": [
-        "brand",
-        "voltage",
-        "adapter",
-        "serialNumber",
-        "port"
+        "Brand",
+        "Model",
+        "Description",
+        "Vendor",
+        "AssignedTo"
       ],
       "id": "5887"
     },
     {
       "name": "printer",
       "fields": [
-        "brand",
-        "ram",
-        "serialNumber",
-        "hdd"
+        "Brand",
+        "Model",
+        "Description",
+        "Vendor",
+        "AssignedTo"
       ],
       "id": "368b"
     },
     {
       "name": "cartridge",
       "fields": [
-        "brand",
-        "serialNumber",
-        "inkColor"
+       "Brand",
+        "Model",
+        "Description",
+        "Vendor",
+        "AssignedTo"
       ],
       "id": "a7be"
     },
     {
       "name": "cable",
       "fields": [
-        "brand",
-        "cableType",
-        "port"
+        "Brand",
+        "Model",
+        "Description",
+        "Vendor",
+        "AssignedTo"
       ],
       "id": "911a"
     }
