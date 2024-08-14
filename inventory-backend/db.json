@@ -1,0 +1,82 @@
+{
+  "laptop": [],
+  "monitor": [],
+  "charger": [],
+  "printer": [],
+  "cartridge": [],
+  "cable": [],
+  "categories": [
+    {
+      "name": "laptop",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ],
+      "id": "ece9"
+    },
+    {
+      "name": "monitor",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ],
+      "id": "cea8"
+    },
+    {
+      "name": "charger",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ],
+      "id": "5887"
+    },
+    {
+      "name": "printer",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ],
+      "id": "368b"
+    },
+    {
+      "name": "cartridge",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ],
+      "id": "a7be"
+    },
+    {
+      "name": "cable",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ],
+      "id": "911a"
+    }
+  ]
+}

@@ -14,31 +14,31 @@ function Items() {
   const [newCategory, setNewCategory] = useState("");
   const [newFields, setNewFields] = useState([]);
   const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
-  const [allFields, setAllFields] = useState([]);
   const [otherFields, setOtherFields] = useState([]);
+  const [allFields, setAllFields] = useState([]);
 
-  // Fetch categories when the component mounts
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/categories`);
+        const uniqueCategories = [...new Map(response.data.map(cat => [cat.name, cat])).values()];
+        setCategories(uniqueCategories);
+
+        const fieldsSet = new Set();
+        response.data.forEach(cat => {
+          cat.fields.forEach(field => fieldsSet.add(field));
+        });
+        setAllFields([...fieldsSet].map(field => ({ label: field, value: field })));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
     fetchCategories();
   }, []);
 
-  // Function to fetch categories
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5001/categories`);
-      setCategories(response.data);
-      const fields = new Set();
-      response.data.forEach(category => {
-        category.fields.forEach(field => fields.add(field));
-      });
-      setAllFields(Array.from(fields).map(field => ({ value: field, label: field })));
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
+    setFormData({}); // Clear form data when category changes
   };
 
   const handleInputChange = (e) => {
@@ -49,25 +49,30 @@ function Items() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const dataToSubmit = { ...formData, id: Date.now().toString() };
+  if (!category) {
+    toast.error("Please select a category!");
+    return;
+  }
 
-    try {
-      await axios.post(`http://localhost:5000/add-item`, {
-        category,
-        newItem: dataToSubmit,
-      });
+  try {
+    await axios.post(`http://localhost:5000/add-item`, {
+      category,
+      newItem: formData,
+    });
 
-      toast.success("Form submitted successfully!");
-      setFormData({});
-      fetchCategories(); // Refresh categories to avoid stale dropdown data
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Error submitting form!");
-    }
-  };
+    toast.success("Item added successfully!");
+    setFormData({});
+    setCategory("");
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    toast.error("Error adding item!");
+  }
+};
+
+
 
   const handleAddNewCategory = () => {
     setShowNewCategoryModal(true);
@@ -78,44 +83,37 @@ function Items() {
   };
 
   const handleNewFieldChange = (selectedOptions) => {
-    setNewFields(selectedOptions.map(option => option.value));
+    const newFieldsCopy = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setNewFields(newFieldsCopy);
   };
 
   const handleOtherFieldChange = (index, e) => {
-    const value = e.target.value;
-    setOtherFields((prevFields) => {
-      const newFields = [...prevFields];
-      newFields[index] = value;
-      return newFields;
-    });
+    const newOtherFields = [...otherFields];
+    newOtherFields[index] = e.target.value;
+    setOtherFields(newOtherFields);
   };
 
   const addOtherField = () => {
-    setOtherFields((prevFields) => [...prevFields, ""]);
+    setOtherFields([...otherFields, ""]);
   };
 
   const handleNewCategorySubmit = async () => {
-    if (newCategory && (newFields.length || otherFields.some(field => field.trim()))) {
+    if (newCategory && newFields.length) {
       try {
-        const existingCategory = categories.find(cat => cat.name === newCategory);
-        if (!existingCategory) {
-          const combinedFields = [...new Set([...newFields, ...otherFields.filter(field => field.trim())])];
-          const newCategoryObject = {
-            name: newCategory,
-            fields: combinedFields, // Remove duplicate fields
-          };
-          await axios.post(`http://localhost:5001/categories`, newCategoryObject);
+        const newCategoryObject = {
+          name: newCategory,
+          fields: [...new Set([...newFields, ...otherFields])],
+        };
+        await axios.post(`http://localhost:5001/categories`, newCategoryObject);
 
-          fetchCategories(); // Re-fetch categories to include the new one
-
-          toast.success("New category added successfully!");
-          setShowNewCategoryModal(false);
-          setNewCategory("");
-          setNewFields([]);
-          setOtherFields([]);
-        } else {
-          toast.error("Category already exists!");
-        }
+        setCategories([...categories, newCategoryObject]);
+        setFormData({});
+        
+        toast.success("New category added successfully!");
+        setShowNewCategoryModal(false);
+        setNewCategory("");
+        setNewFields([]);
+        setOtherFields([]);
       } catch (error) {
         console.error("Error adding new category:", error);
         toast.error("Error adding new category!");
@@ -130,7 +128,7 @@ function Items() {
     if (!selectedCategory) return null;
 
     return selectedCategory.fields.map((field, index) => (
-      <div key={`${category}-${field}-${index}`}>
+      <div key={index}>
         <label htmlFor={field}>{field}*</label>
         <input
           type="text"
@@ -145,7 +143,6 @@ function Items() {
     ));
   };
 
-  // Custom styles for react-select
   const customStyles = {
     control: (provided) => ({
       ...provided,

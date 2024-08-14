@@ -36,6 +36,7 @@ const Inventory = () => {
 
         const responses = await Promise.all(requests);
         const allItems = responses.flat();
+        console.log('Fetched Items:', allItems); // Logging fetched items
         const uniqueItems = Array.from(new Map(allItems.map(item => [item.id, item])).values());
         setItems(uniqueItems);
       } catch (error) {
@@ -152,6 +153,6 @@ const Inventory = () => {
       />
     </div>
   );
-}
+};
 
 export default Inventory;
