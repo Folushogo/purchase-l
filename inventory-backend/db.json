@@ -1,5 +1,18 @@
 {
-  "laptop": [],
+  "laptop": [
+    {
+      "category": "laptop",
+      "brand": "HP",
+      "model": "LATITUDE 3390",
+      "description": "x",
+      "vendor": "ALL ABOUT COMMUNICATIONS",
+      "assignedTo": "AJALA TRAVELS",
+      "sabreTag": "2414",
+      "_id": "66bc68ffb0c23f595caaacde",
+      "id": "4a39584d-7c38-4447-975f-42bfc8d82f40",
+      "__v": 0
+    }
+  ],
   "monitor": [],
   "charger": [],
   "printer": [],

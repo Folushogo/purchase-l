@@ -10,6 +10,7 @@ const Inventory = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [editItemId, setEditItemId] = useState(null);
   const [editFormData, setEditFormData] = useState({});
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -63,11 +64,15 @@ const Inventory = () => {
     setEditFormData(itemToEdit);
   };
 
-  const handleDeleteClick = async (itemId) => {
+  const handleDeleteClick = async () => {
     try {
-      const itemToDelete = items.find((item) => item.id === itemId);
-      await axios.delete(`http://localhost:5001/${itemToDelete.category}/${itemId}`);
-      setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+      if (!editItemId) return;
+
+      const itemToDelete = items.find((item) => item.id === editItemId);
+      await axios.delete(`http://localhost:5001/${itemToDelete.category}/${editItemId}`);
+      setItems((prevItems) => prevItems.filter((item) => item.id !== editItemId));
+      setEditItemId(null);
+      setDropdownOpen(false);
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -75,9 +80,12 @@ const Inventory = () => {
 
   const handleSaveClick = async () => {
     try {
+      if (!editItemId) return;
+
       await axios.put(`http://localhost:5001/${editFormData.category}/${editFormData.id}`, editFormData);
       setItems((prevItems) => prevItems.map((item) => (item.id === editFormData.id ? editFormData : item)));
       setEditItemId(null);
+      setDropdownOpen(false);
     } catch (error) {
       console.error("Error saving item:", error);
     }
@@ -91,6 +99,10 @@ const Inventory = () => {
     }));
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div className="inventory-container">
       <h1>Inventory</h1>
@@ -102,12 +114,11 @@ const Inventory = () => {
             {allFields.map((field, index) => (
               <th key={index}>{field}</th>
             ))}
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentPageItems.map((item, index) => (
-            <tr key={item.id}>
+            <tr key={item.id} onClick={() => handleEditClick(item.id)}>
               <td>{offset + index + 1}</td>
               <td>{item.category}</td>
               {allFields.map((field, fieldIndex) => (
@@ -124,20 +135,28 @@ const Inventory = () => {
                   )}
                 </td>
               ))}
-              <td>
-                {editItemId === item.id ? (
-                  <>
-                    <button onClick={handleSaveClick}>Save</button>
-                    <button onClick={() => handleDeleteClick(item.id)}>Delete</button>
-                  </>
-                ) : (
-                  <button onClick={() => handleEditClick(item.id)}>Edit</button>
-                )}
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="dropdown-container">
+        <div className="dropdown">
+          <button className="dropbtn" onClick={toggleDropdown}>Edit</button>
+          {dropdownOpen && (
+            <div className="dropdown-content">
+              {editItemId !== null ? (
+                <>
+                  <a href="#" onClick={handleSaveClick}>Save</a>
+                  <a href="#" onClick={handleDeleteClick}>Delete</a>
+                </>
+              ) : (
+                <p>Select an item to edit or delete</p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
       <ReactPaginate
         previousLabel={"previous"}
         nextLabel={"next"}
@@ -151,6 +170,7 @@ const Inventory = () => {
         subContainerClassName={"pages pagination"}
         activeClassName={"active"}
       />
+
     </div>
   );
 };

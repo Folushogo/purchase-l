@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function Items() {
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("laptop");
   const [formData, setFormData] = useState({});
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
@@ -29,6 +29,11 @@ function Items() {
           cat.fields.forEach(field => fieldsSet.add(field));
         });
         setAllFields([...fieldsSet].map(field => ({ label: field, value: field })));
+
+        // Set default category to "laptop" if it exists
+        if (uniqueCategories.some(cat => cat.name === "laptop")) {
+          setCategory("laptop");
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -49,30 +54,28 @@ function Items() {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!category) {
-    toast.error("Please select a category!");
-    return;
-  }
+    if (!category) {
+      toast.error("Please select a category!");
+      return;
+    }
 
-  try {
-    await axios.post(`http://localhost:5000/add-item`, {
-      category,
-      newItem: formData,
-    });
+    try {
+      await axios.post(`http://localhost:5000/add-item`, {
+        category,
+        newItem: formData,
+      });
 
-    toast.success("Item added successfully!");
-    setFormData({});
-    setCategory("");
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    toast.error("Error adding item!");
-  }
-};
-
-
+      toast.success("Item added successfully!");
+      setFormData({});
+      setCategory("");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Error adding item!");
+    }
+  };
 
   const handleAddNewCategory = () => {
     setShowNewCategoryModal(true);
