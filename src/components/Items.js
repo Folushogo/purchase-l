@@ -47,20 +47,25 @@ function Items() {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const { name, value } = e.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const newItem = {
+    brand: formData.brand,
+    model: formData.model,
+    description: formData.description,
+    vendor: formData.vendor,
+    assignedTo: formData.assignedTo,
+    sabreTag: formData.sabreTag,
+    ...formData, // Include additional dynamic fields
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!category) {
-      toast.error("Please select a category!");
-      return;
-    }
 
     try {
       await axios.post(`http://localhost:5000/add-item`, {
@@ -126,7 +131,7 @@ function Items() {
     }
   };
 
-  const renderInputs = () => {
+ const renderInputs = () => {
     const selectedCategory = categories.find((cat) => cat.name === category);
     if (!selectedCategory) return null;
 

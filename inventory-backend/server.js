@@ -26,17 +26,20 @@ const itemSchema = new mongoose.Schema({
   vendor: { type: String, required: true },
   assignedTo: { type: String, required: true },
   sabreTag: { type: String, required: true },
+  additionalFields: { type: mongoose.Schema.Types.Mixed }, // Store dynamic fields here
 });
 
 const Item = mongoose.model('Item', itemSchema);
 
+
 // Define the category schema and model
 const categorySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  fields: { type: Array, default: [] }, // Store fields if needed
+  fields: { type: [String], default: [] }, // Store fields as an array of strings
 });
 
 const Category = mongoose.model('Category', categorySchema);
+
 
 // Endpoint to add an item
 app.post('/add-item', async (req, res) => {
@@ -48,13 +51,30 @@ app.post('/add-item', async (req, res) => {
     if (!foundCategory) {
       foundCategory = new Category({ name: category, fields: Object.keys(newItem) });
       await foundCategory.save();
+    } else {
+      // Update category fields with any new fields added in this item
+      const newFields = Object.keys(newItem).filter(field => !foundCategory.fields.includes(field));
+      if (newFields.length > 0) {
+        foundCategory.fields.push(...newFields);
+        await foundCategory.save();
+      }
     }
+
+    // Separate predefined fields and additional fields
+    const { brand, model, description, vendor, assignedTo, sabreTag, ...additionalFields } = newItem;
 
     // Create and save the new item document in MongoDB
     const newItemDocument = new Item({
-      ...newItem,
+      brand,
+      model,
+      description,
+      vendor,
+      assignedTo,
+      sabreTag,
       category,
+      additionalFields, // Save dynamic fields here
     });
+
     await newItemDocument.save();
 
     // Save the new item to db.json
@@ -82,6 +102,7 @@ app.post('/add-item', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 // Endpoint to fetch data from db.json
 app.get('/db-json', (req, res) => {

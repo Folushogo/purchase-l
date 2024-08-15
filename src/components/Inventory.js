@@ -13,40 +13,41 @@ const Inventory = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const itemsPerPage = 10;
 
-  useEffect(() => {
-    const fetchCategoriesAndItems = async () => {
-      try {
-        const categoryResponse = await axios.get(`http://localhost:5001/categories`);
-        const categoriesData = categoryResponse.data;
-        setCategories(categoriesData);
+ useEffect(() => {
+  const fetchCategoriesAndItems = async () => {
+    try {
+      const categoryResponse = await axios.get(`http://localhost:5001/categories`);
+      const categoriesData = categoryResponse.data;
+      setCategories(categoriesData);
 
-        const requests = categoriesData.map((category) =>
-          axios.get(`http://localhost:5001/${category.name}`)
-            .then((response) => {
-              return response.data.map((item) => ({ ...item, category: category.name }));
-            })
-            .catch((error) => {
-              if (error.response && error.response.status === 404) {
-                return [];
-              } else {
-                console.error(`Error fetching ${category.name}:`, error);
-                return [];
-              }
-            })
-        );
+      const requests = categoriesData.map((category) =>
+        axios.get(`http://localhost:5001/${category.name}`)
+          .then((response) => {
+            return response.data.map((item) => ({ ...item, category: category.name }));
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 404) {
+              return [];
+            } else {
+              console.error(`Error fetching ${category.name}:`, error);
+              return [];
+            }
+          })
+      );
 
-        const responses = await Promise.all(requests);
-        const allItems = responses.flat();
-        console.log('Fetched Items:', allItems); // Logging fetched items
-        const uniqueItems = Array.from(new Map(allItems.map(item => [item.id, item])).values());
-        setItems(uniqueItems);
-      } catch (error) {
-        console.error("Error fetching categories and items:", error);
-      }
-    };
+      const responses = await Promise.all(requests);
+      const allItems = responses.flat();
+      console.log('Fetched Items:', allItems); // Logging fetched items
+      const uniqueItems = Array.from(new Map(allItems.map(item => [item.id, item])).values());
+      setItems(uniqueItems);
+    } catch (error) {
+      console.error("Error fetching categories and items:", error);
+    }
+  };
 
-    fetchCategoriesAndItems();
-  }, []);
+  fetchCategoriesAndItems();
+}, []);
+
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
