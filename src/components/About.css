@@ -3,23 +3,26 @@
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.75; /* Further increase line-height for readability */
 }
 
 h1 {
   color: #4caf50;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 28px; /* Further increase space below header */
+  font-size: 2.5rem; /* Increase size for better visibility */
 }
 
 h3 {
   color: #333;
-  margin-top: 20px;
+  margin-top: 28px; /* Further increase space above subheadings */
+  font-size: 1.7rem; /* Increase for better readability */
 }
 
 p {
   color: #555;
-  margin: 10px 0;
+  margin: 14px 0; /* Further increase margin for better spacing */
+  font-size: 1.1rem; /* Increase font size for readability */
 }
 
 ul {
@@ -28,26 +31,54 @@ ul {
 }
 
 li {
-  margin: 10px 0;
+  margin: 14px 0; /* Further increase spacing between list items */
+  font-size: 1.1rem; /* Match paragraph text size */
 }
 
 li strong {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 
 /* Responsive styles */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .about-container {
-    padding: 10px;
+    padding: 20px; /* Slightly increased padding */
   }
 
-  h1, h3 {
-    font-size: 1.2rem;
+  h1 {
+    font-size: 2.2rem; /* Increase font size for better visibility */
+    margin-bottom: 22px; /* Increase space for readability */
+  }
+
+  h3 {
+    font-size: 1.5rem; /* Increase font size */
+    margin-top: 22px;
   }
 
   p, li {
-    font-size: 0.9rem;
+    font-size: 1.2rem; /* Slightly larger for readability */
+  }
+}
+
+@media (min-width: 600px) {
+  .body {
+    padding: 20px;
+    max-width: 1200px;
+  }
+
+  h1 {
+    font-size: 2rem; /* Further increase size */
+    margin-bottom: 20px; /* Increase space below the header */
+  }
+
+  h3 {
+    font-size: 1.4rem; /* Increase size for visibility */
+    margin-top: 20px;
+  }
+
+  p, li {
+    font-size: 1.1rem; /* Larger text size for readability */
   }
 }

@@ -1,17 +1,138 @@
-/* Navbar.css */
+/* General styles for navbar */
 .navbar {
-  background: #444;
-  color: white;
-  padding: 1rem;
-  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 0 10px;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.navbar a {
-  color: white;
-  margin: 0 1rem;
+/* Menu icon styles */
+.menu-icon {
+  display: none;
+  font-size: 24px;
+  color: #140202;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Navbar header for mobile */
+.navbar-header {
+  display: none;
+}
+
+/* Icon beside the navbar title */
+.navbar-icon {
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+/* Title in the navbar */
+.navbar-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px; /* Adjust this value to move the title down */
+}
+
+/* Links container */
+.navbar-links {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Individual link styles */
+.navbar-links a {
+  display: flex;
+  align-items: center;
+  color: #1b0202;
   text-decoration: none;
+  padding: 0 10px;
+  line-height: 75px;
 }
 
-.navbar a:hover {
-  text-decoration: underline;
+/* Mobile icon styles for larger screens */
+.navbar-links a .mobile-icon {
+  margin-right: 4px;
+  color: #4caf50;
+}
+
+/* Media query for larger screens */
+@media (min-width: 769px) {
+  .navbar-links a .mobile-icon {
+    display: inline-block; /* Display icons on larger screens */
+  }
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px 0;
+  }
+
+  /* Show the navbar header on mobile */
+  .navbar-header {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    color: #1b0202;
+    z-index: 1;
+  }
+
+  .header-icon {
+    margin-left: 180px;
+    font-size: 18px;
+    align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    position: fixed;
+    top: 50px;
+    left: -50%; /* Start off-screen */
+    width: 50%;
+    height: calc(100% - 50px);
+    background-color: #fff;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    gap: 0;
+  }
+
+  /* When the navbar is open, move links into view */
+  .navbar.open .navbar-links {
+    left: 0;
+  }
+
+  /* Show the menu icon on mobile */
+  .menu-icon {
+    display: block;
+    padding: 20px;
+    
+  }
+
+  /* Show mobile icons in the links */
+  .navbar-links a .mobile-icon {
+    display: inline-block;
+  }
 }
