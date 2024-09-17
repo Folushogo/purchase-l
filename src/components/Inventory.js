@@ -11,51 +11,56 @@ const Inventory = () => {
   const [editItemId, setEditItemId] = useState(null);
   const [editFormData, setEditFormData] = useState({});
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search
   const itemsPerPage = 10;
 
- useEffect(() => {
-  const fetchCategoriesAndItems = async () => {
-    try {
-      const categoryResponse = await axios.get(`http://localhost:5001/categories`);
-      const categoriesData = categoryResponse.data;
-      setCategories(categoriesData);
+  useEffect(() => {
+    const fetchCategoriesAndItems = async () => {
+      try {
+        const categoryResponse = await axios.get(`http://localhost:5001/categories`);
+        const categoriesData = categoryResponse.data;
+        setCategories(categoriesData);
 
-      const requests = categoriesData.map((category) =>
-        axios.get(`http://localhost:5001/${category.name}`)
-          .then((response) => {
-            return response.data.map((item) => ({ ...item, category: category.name }));
-          })
-          .catch((error) => {
-            if (error.response && error.response.status === 404) {
-              return [];
-            } else {
-              console.error(`Error fetching ${category.name}:`, error);
-              return [];
-            }
-          })
-      );
+        const requests = categoriesData.map((category) =>
+          axios.get(`http://localhost:5001/${category.name}`)
+            .then((response) => {
+              return response.data.map((item) => ({ ...item, category: category.name }));
+            })
+            .catch((error) => {
+              if (error.response && error.response.status === 404) {
+                return [];
+              } else {
+                console.error(`Error fetching ${category.name}:`, error);
+                return [];
+              }
+            })
+        );
 
-      const responses = await Promise.all(requests);
-      const allItems = responses.flat();
-      console.log('Fetched Items:', allItems); // Logging fetched items
-      const uniqueItems = Array.from(new Map(allItems.map(item => [item.id, item])).values());
-      setItems(uniqueItems);
-    } catch (error) {
-      console.error("Error fetching categories and items:", error);
-    }
-  };
+        const responses = await Promise.all(requests);
+        const allItems = responses.flat();
+        const uniqueItems = Array.from(new Map(allItems.map(item => [item.id, item])).values());
+        setItems(uniqueItems);
+      } catch (error) {
+        console.error("Error fetching categories and items:", error);
+      }
+    };
 
-  fetchCategoriesAndItems();
-}, []);
-
+    fetchCategoriesAndItems();
+  }, []);
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
   const offset = currentPage * itemsPerPage;
-  const currentPageItems = items.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+
+  // Filter items based on search query
+  const filteredItems = items.filter(item => 
+    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const currentPageItems = filteredItems.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredItems.length / itemsPerPage);
 
   const allFields = Array.from(new Set(categories.flatMap(category => category.fields)));
 
@@ -104,9 +109,25 @@ const Inventory = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(0); // Reset to first page when searching
+  };
+
   return (
     <div className="inventory-container">
       <h1>Inventory</h1>
+
+      {/* Search input */}
+      <input
+        type="text"
+        placeholder="Search by category..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+        className="search-box"
+      />
+
       <table>
         <thead>
           <tr>
@@ -140,6 +161,7 @@ const Inventory = () => {
           ))}
         </tbody>
       </table>
+
       <div className="dropdown-container">
         <div className="dropdown">
           <button className="dropbtn" onClick={toggleDropdown}>Edit</button>
@@ -171,7 +193,6 @@ const Inventory = () => {
         subContainerClassName={"pages pagination"}
         activeClassName={"active"}
       />
-
     </div>
   );
 };

@@ -90,6 +90,18 @@
         "sabreTag"
       ],
       "id": "911a"
+    },
+    {
+      "id": "8cb1",
+      "name": "mouse",
+      "fields": [
+        "brand",
+        "model",
+        "description",
+        "vendor",
+        "assignedTo",
+        "sabreTag"
+      ]
     }
   ]
 }
